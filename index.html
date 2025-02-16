@@ -66,19 +66,24 @@
         .btn-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px; /* Mehr Abstand nach unten */
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
         button {
             flex: 1;
-            padding: 12px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 14px;
             background: #ff6b81;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         button:hover {
@@ -87,8 +92,8 @@
 
         .clear-btn {
             background: #ccc;
-            width: 100%; /* Volle Breite */
-            margin-top: 10px; /* Abstand nach oben */
+            width: 100%;
+            margin-top: 10px;
         }
 
         .clear-btn:hover {
@@ -131,11 +136,11 @@
         <input type="number" id="inputValue" placeholder="z. B. 100">
 
         <div class="btn-group">
-            <button onclick="convertToMl()">In ml umrechnen</button>
-            <button onclick="convertToGrams()">In g umrechnen</button>
+            <button onclick="convertToMl()">⚖️ In ml</button>
+            <button onclick="convertToGrams()">📏 In g</button>
         </div>
 
-        <button class="clear-btn" onclick="clearInput()">Zutaten löschen</button>
+        <button class="clear-btn" onclick="clearInput()">❌ Zutaten löschen</button>
 
         <h2>Ergebnis:</h2>
         <p id="result">-</p>
