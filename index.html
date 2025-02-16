@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gramm ⇄ ml Umrechner</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: white;
+            padding: 25px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin: 10px 0 5px;
+            text-align: left;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff6b81;
+            box-shadow: 0px 0px 5px rgba(255, 107, 129, 0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px; /* Mehr Abstand nach unten */
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            background: #ff6b81;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e04a5a;
+        }
+
+        .clear-btn {
+            background: #ccc;
+            width: 100%; /* Volle Breite */
+            margin-top: 10px; /* Abstand nach oben */
+        }
+
+        .clear-btn:hover {
+            background: #aaa;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6b81;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gramm ⇄ ml Umrechner</h1>
+        
+        <label for="ingredient">Zutat wählen:</label>
+        <select id="ingredient">
+            <option value="" disabled selected>Bitte auswählen</option>
+            <option value="sugar">Zucker</option>
+            <option value="flour">Mehl</option>
+            <option value="yeast">Hefe (Trocken)</option>
+            <option value="butter">Butter</option>
+            <option value="water">Wasser</option>
+            <option value="milk">Milch</option>
+            <option value="oil">Öl</option>
+            <option value="salt">Salz</option>
+            <option value="honey">Honig</option>
+        </select>
+
+        <label for="inputValue">Menge eingeben:</label>
+        <input type="number" id="inputValue" placeholder="z. B. 100">
+
+        <div class="btn-group">
+            <button onclick="convertToMl()">In ml umrechnen</button>
+            <button onclick="convertToGrams()">In g umrechnen</button>
+        </div>
+
+        <button class="clear-btn" onclick="clearInput()">Zutaten löschen</button>
+
+        <h2>Ergebnis:</h2>
+        <p id="result">-</p>
+    </div>
+
+    <script>
+        // Dichtewerte für verschiedene Zutaten (g <-> ml)
+        const density = {
+            sugar: { ml: 0.79, g: 1.27 },
+            flour: { ml: 1.89, g: 0.53 },
+            yeast: { ml: 3.33, g: 0.3 },
+            butter: { ml: 1.05, g: 0.95 },
+            water: { ml: 1, g: 1 },
+            milk: { ml: 0.97, g: 1.03 },
+            oil: { ml: 1.09, g: 0.92 },
+            salt: { ml: 0.87, g: 1.15 },
+            honey: { ml: 0.7, g: 1.42 }
+        };
+
+        // Umrechnung in ml
+        function convertToMl() {
+            let ingredient = document.getElementById("ingredient").value;
+            let inputValue = parseFloat(document.getElementById("inputValue").value);
+            if (!ingredient) {
+                document.getElementById("result").innerText = "Bitte eine Zutat auswählen.";
+                return;
+            }
+            if (isNaN(inputValue) || inputValue <= 0) {
+                document.getElementById("result").innerText = "Bitte eine gültige Zahl eingeben.";
+                return;
+            }
+            let result = inputValue * density[ingredient].ml;
+            document.getElementById("result").innerText = `${inputValue} g = ${result.toFixed(2)} ml`;
+        }
+
+        // Umrechnung in g
+        function convertToGrams() {
+            let ingredient = document.getElementById("ingredient").value;
+            let inputValue = parseFloat(document.getElementById("inputValue").value);
+            if (!ingredient) {
+                document.getElementById("result").innerText = "Bitte eine Zutat auswählen.";
+                return;
+            }
+            if (isNaN(inputValue) || inputValue <= 0) {
+                document.getElementById("result").innerText = "Bitte eine gültige Zahl eingeben.";
+                return;
+            }
+            let result = inputValue * density[ingredient].g;
+            document.getElementById("result").innerText = `${inputValue} ml = ${result.toFixed(2)} g`;
+        }
+
+        // Zutaten löschen (Eingabefeld & Auswahl zurücksetzen)
+        function clearInput() {
+            document.getElementById("ingredient").selectedIndex = 0;
+            document.getElementById("inputValue").value = "";
+            document.getElementById("result").innerText = "-";
+        }
+    </script>
+</body>
+</html>
